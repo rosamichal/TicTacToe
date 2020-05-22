@@ -13,8 +13,12 @@
     --mark-o-color: rgb(0, 190, 0);
     --mark-x-color-hover: rgb(190, 190, 255);
     --mark-o-color-hover: rgb(190, 255, 190);
-    --mark-size: calc(var(--cell-size) * 0.85);
-    --mark-thickness: calc(var(--mark-size) * 0.15);
+    --mark-size: calc(var(--cell-size) * .85);
+    --mark-thickness: calc(var(--mark-size) * .15);
+    --winning-message-win-o-background-color: rgba(0, 190, 0, .9);
+    --winning-message-win-x-background-color: rgba(0, 0, 190, .9);
+    --winning-message-draw-background-color: rgba(145, 145, 145, 0.9);
+    --winning-message-button-background-color: rgb(145, 145, 145);
 }
 
 body {
@@ -24,6 +28,7 @@ body {
     align-items: center;
     color: var(--text-color);
     min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .board {
@@ -108,7 +113,48 @@ body {
     transform: rotate(-45deg);
 }
 
+.winning-message {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.winning-message--win-o {
+    background-color: var(--winning-message-win-o-background-color);
+}
 
-.main {
+.winning-message--win-x {
+    background-color: var(--winning-message-win-x-background-color);
+}
+
+.winning-message--draw {
+    background-color: var(--winning-message-draw-background-color);
+}
+
+.winning-message__button {
+    font-size: 3rem;
+    background-color: var(--text-color);
+    border-radius: 3px;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message__button:hover {
+    background-color: var(--winning-message-button-background-color);
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+
+.winning-message__text {
+    font-size: 5rem;
+}
+
+.hide {
+    display: none;
 }
