@@ -1,5 +1,7 @@
 const $moveX = 'board--move-x';
 const $moveO = 'board--move-o';
+const $markXClass = 'board__cell--x';
+const $markOClass = 'board__cell--o';
 
 let $boardCells;
 let $board;
@@ -27,15 +29,16 @@ const reset = () => {
     $board.classList.add($currentMove);
 }
 
-const markCell = () => {
-    putMark();
+const markCell = (event) => {
+    putMark(event.target);
     checkWin();
     checkDraw();
     switchTurn();
 }
 
-const putMark = () => {
-
+const putMark = cell => {
+    const className = $currentMove === $moveO ? $markOClass : $markXClass;
+    cell.classList.add(className);
 }
 
 const checkWin = () => {
