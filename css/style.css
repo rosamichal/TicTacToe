@@ -7,18 +7,22 @@
 :root {
     --background-color: rgb(0, 0, 0);
     --text-color: rgb(255, 255, 255);
-    --cell-background-color: rgba(255, 255, 255, 0.8);
+    --cell-background-color: rgb(200, 200, 200);
     --cell-background-color-hover: rgba(255, 255, 255, 0.9);
-    --cell-x-color: rgb(0, 0, 190);
-    --cell-o-color: rgb(0, 190, 0);
     --cell-size: 100px;
+    --mark-x-color: rgb(0, 0, 190);
+    --mark-o-color: rgb(0, 190, 0);
+    --mark-size: calc(var(--cell-size) * 0.85);
+    --mark-thickness: calc(var(--mark-size) * 0.15);
 }
 
 body {
     background-color: var(--background-color);
     display: flex;
     justify-content: center;
+    align-items: center;
     color: var(--text-color);
+    min-height: 100vh;
 }
 
 .board {
@@ -31,6 +35,10 @@ body {
     background-color: var(--cell-background-color);
     width: var(--cell-size);
     height: var(--cell-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .board__cell:hover {
@@ -38,6 +46,40 @@ body {
     cursor: pointer;
 }
 
+.board__cell--o::before {
+    content: '';
+    width: var(--mark-size);
+    height: var(--mark-size);
+    background-color: var(--mark-o-color);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.board__cell--o::after {
+    content: '';
+    width: calc(var(--mark-size) - 2 * var(--mark-thickness));
+    height: calc(var(--mark-size) - 2 * var(--mark-thickness));
+    background-color: var(--cell-background-color);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.board__cell--x::before,
+.board__cell--x::after {
+    content: '';
+    width: var(--mark-thickness);
+    height: var(--mark-size);
+    background-color: var(--mark-x-color);
+    position: absolute;
+}
+
+.board__cell--x::before {
+    transform: rotate(45deg);
+}
+
+.board__cell--x::after {
+    transform: rotate(-45deg);
+}
+
 .main {
-    margin-top: 100px;;
 }
