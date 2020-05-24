@@ -2,6 +2,11 @@ const $moveX = 'board--move-x';
 const $moveO = 'board--move-o';
 const $markXClass = 'board__cell--x';
 const $markOClass = 'board__cell--o';
+const $gameResult = {
+    XWIN: 'xWin',
+    OWIN: 'oWin',
+    DRAW: 'draw'
+}
 
 let $boardCells;
 let $board;
@@ -10,6 +15,7 @@ let $winningMessageText;
 
 let $currentMove = $moveX;
 let $moveCounter = 0;
+const $boardSize = 3;
 
 const main = () => {
     prepareDOMElements();
@@ -29,7 +35,9 @@ const newGame = () => {
 
 const reset = () => {
     $boardCells.forEach(cell => {
-        cell.addEventListener('click', markCell, {once: true});
+        cell.addEventListener('click', markCell, {
+            once: true
+        });
     });
     $winningMessage.classList.remove('winning-message--win-o');
     $winningMessage.classList.remove('winning-message--win-x');
@@ -53,16 +61,122 @@ const putMark = cell => {
 }
 
 const checkWin = () => {
+    let xCells = [];
+    let oCells = [];
+    let emptyCells = [];
+    debugger;
+    // check rows
+    for (let i = 0; i < $boardSize; i++) {
+        xCells = [];
+        oCells = [];
+        emptyCells = [];
+        for (let j = 0; j < $boardSize; j++) {
+            let cellIndex = i * $boardSize + j;
+            if ($boardCells[cellIndex].classList.contains($markXClass)) {
+                xCells.push(cellIndex);
+            } else if ($boardCells[cellIndex].classList.contains($markOClass)) {
+                oCells.push(cellIndex);
+            } else {
+                emptyCells.push(cellIndex);
+            }
+        }
+
+        if (xCells.length === $boardSize) {
+            showWinningMessage($gameResult.XWIN);
+        } else if (oCells.length === $boardSize) {
+            showWinningMessage($gameResult.OWIN);
+        }
+    }
+
+    // columns
+    for (let i = 0; i < $boardSize; i++) {
+        xCells = [];
+        oCells = [];
+        emptyCells = [];
+        for (let j = 0; j < $boardSize; j++) {
+            let cellIndex = i + j * $boardSize;
+            if ($boardCells[cellIndex].classList.contains($markXClass)) {
+                xCells.push(cellIndex);
+            } else if ($boardCells[cellIndex].classList.contains($markOClass)) {
+                oCells.push(cellIndex);
+            } else {
+                emptyCells.push(cellIndex);
+            }
+        }
+
+        if (xCells.length === $boardSize) {
+            showWinningMessage($gameResult.XWIN);
+        } else if (oCells.length === $boardSize) {
+            showWinningMessage($gameResult.OWIN);
+        }
+    }
+
+    // diagonals
+    xCells = [];
+    oCells = [];
+    emptyCells = [];
+    for (let i = 0; i < $boardSize; i++) {
+        let cellIndex = i + i * $boardSize;
+        if ($boardCells[cellIndex].classList.contains($markXClass)) {
+            xCells.push(cellIndex);
+        } else if ($boardCells[cellIndex].classList.contains($markOClass)) {
+            oCells.push(cellIndex);
+        } else {
+            emptyCells.push(cellIndex);
+        }
+    }
+
+    if (xCells.length === $boardSize) {
+        showWinningMessage($gameResult.XWIN);
+    } else if (oCells.length === $boardSize) {
+        showWinningMessage($gameResult.OWIN);
+    }
+
+    xCells = [];
+    oCells = [];
+    emptyCells = [];
+    for (let i = 1; i <= $boardSize; i++) {
+        let cellIndex = i * $boardSize - i;
+        if ($boardCells[cellIndex].classList.contains($markXClass)) {
+            xCells.push(cellIndex);
+        } else if ($boardCells[cellIndex].classList.contains($markOClass)) {
+            oCells.push(cellIndex);
+        } else {
+            emptyCells.push(cellIndex);
+        }
+    }
+
+    if (xCells.length === $boardSize) {
+        showWinningMessage($gameResult.XWIN);
+    } else if (oCells.length === $boardSize) {
+        showWinningMessage($gameResult.OWIN);
+    }
 
 }
 
 const checkDraw = () => {
-    if ($moveCounter === 9){
-        console.log('remis');
-        $winningMessageText.innerText = 'REMIS';
-        $winningMessage.classList.remove('hide');
-        $winningMessage.classList.add('winning-message--draw');
+    if ($moveCounter === 9) {
+        showWinningMessage($gameResult.DRAW);
     }
+}
+
+const showWinningMessage = gameResult => {
+    switch (gameResult) {
+        case $gameResult.XWIN:
+            $winningMessageText.innerText = 'Wygrał gracz X';
+            $winningMessage.classList.add('winning-message--win-x');
+            break;
+        case $gameResult.OWIN:
+            $winningMessageText.innerText = 'Wygrał gracz O';
+            $winningMessage.classList.add('winning-message--win-o');
+            break;
+        case $gameResult.DRAW:
+            $winningMessageText.innerText = 'REMIS';
+            $winningMessage.classList.add('winning-message--draw');
+            break;
+    }
+
+    $winningMessage.classList.remove('hide');
 }
 
 const switchTurn = () => {
@@ -71,5 +185,5 @@ const switchTurn = () => {
     $board.classList.remove('board--move-o');
     $board.classList.add($currentMove);
 }
-    
+
 document.addEventListener('DOMContentLoaded', main);
