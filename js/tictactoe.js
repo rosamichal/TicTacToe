@@ -12,6 +12,7 @@ let $boardCells;
 let $board;
 let $winningMessage;
 let $winningMessageText;
+let $winningMessageButton;
 
 let $currentMove = $moveX;
 let $moveCounter = 0;
@@ -27,6 +28,9 @@ const prepareDOMElements = () => {
     $boardCells = document.querySelectorAll('.board__cell--js');
     $winningMessage = document.querySelector('.winning-message--js');
     $winningMessageText = document.querySelector('.winning-message__text--js');
+    $winningMessageButton = document.querySelector('.winning-message__button--js');
+
+    $winningMessageButton.addEventListener('click', newGame);
 }
 
 const newGame = () => {
@@ -35,6 +39,9 @@ const newGame = () => {
 
 const reset = () => {
     $boardCells.forEach(cell => {
+        cell.classList.remove($markOClass);
+        cell.classList.remove($markXClass);
+
         cell.addEventListener('click', markCell, {
             once: true
         });
@@ -44,6 +51,7 @@ const reset = () => {
     $winningMessage.classList.remove('winning-message--draw');
     $winningMessage.classList.add('hide');
 
+    $moveCounter = 0;
     $board.classList.add($currentMove);
 }
 
