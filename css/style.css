@@ -32,8 +32,9 @@ body {
 }
 
 .board {
+    --board-size: 3;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(var(--board-size), 1fr);
     gap: 10px;
 }
 
@@ -153,6 +154,7 @@ body {
 
 .winning-message__text {
     font-size: 5rem;
+    margin-bottom: 40px;
 }
 
 .hide {
