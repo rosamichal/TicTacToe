@@ -1,0 +1,163 @@
+$background-color: rgb(0, 0, 0);
+$text-color: rgb(255, 255, 255);
+$cell-background-color: rgb(255, 255, 255);
+$cell-size: 100px;
+$mark-x-color: rgb(0, 0, 190);
+$mark-o-color: rgb(0, 190, 0);
+$mark-x-color-hover: rgb(190, 190, 255);
+$mark-o-color-hover: rgb(190, 255, 190);
+$mark-size: calc(#{$cell-size} * .85);
+$mark-thickness: calc(#{$mark-size} * .15);
+$link-color: rgba(255, 255, 255, .8);
+$winning-message-win-o-background-color: rgba(0, 190, 0, .9);
+$winning-message-win-x-background-color: rgba(0, 0, 190, .9);
+$winning-message-draw-background-color: rgba(145, 145, 145, 0.9);
+$winning-message-button-background-color: rgb(145, 145, 145);
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $background-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $text-color;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.board {
+    --board-size: 3;
+    display: grid;
+    grid-template-columns: repeat(var(--board-size), 1fr);
+    gap: 10px;
+    &__cell {
+        background-color: $cell-background-color;
+        width: $cell-size;
+        height: $cell-size;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        &--o,
+        &--x {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.board__cell--o::before {
+    background-color: $mark-o-color;
+}
+
+.board--move-o>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before {
+    background-color: $mark-o-color-hover;
+}
+
+.board__cell--o::before,
+.board__cell--o::after,
+.board--move-o>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before,
+.board--move-o>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::after {
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+}
+
+.board__cell--o::before,
+.board--move-o>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before {
+    width: $mark-size;
+    height: $mark-size;
+}
+
+.board__cell--o::after,
+.board--move-o>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::after {
+    width: calc(#{$mark-size} - 2 * #{$mark-thickness});
+    height: calc(#{$mark-size} - 2 * #{$mark-thickness});
+    background-color: $cell-background-color;
+}
+
+.board__cell--x::before,
+.board__cell--x::after {
+    background-color: $mark-x-color;
+}
+
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before,
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::after {
+    background-color: $mark-x-color-hover;
+}
+
+.board__cell--x::before,
+.board__cell--x::after,
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before,
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::after {
+    content: '';
+    width: $mark-thickness;
+    height: $mark-size;
+    position: absolute;
+}
+
+.board__cell--x::before,
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::before {
+    transform: rotate(45deg);
+}
+
+.board__cell--x::after,
+.board--move-x>.board__cell:not(.board__cell--x):not(.board__cell--o):hover::after {
+    transform: rotate(-45deg);
+}
+
+.footer{
+    &__link {
+        color: $link-color;
+        text-decoration: none;
+        &:hover {
+            color: $text-color;
+        }
+    }
+}
+
+.winning-message {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &--win-o {
+        background-color: $winning-message-win-o-background-color;
+    }
+    &--win-x {
+        background-color: $winning-message-win-x-background-color;
+    }
+    &--draw {
+        background-color: $winning-message-draw-background-color;
+    }
+    &__button {
+        font-size: 3rem;
+        background-color: $text-color;
+        border-radius: 3px;
+        padding: .25em .5em;
+        cursor: pointer;
+        &:hover {
+            background-color: $winning-message-button-background-color;
+            color: $text-color;
+            border-color: $text-color;
+        }
+    }
+    &__text {
+        font-size: 5rem;
+        margin-bottom: 40px;
+    }
+}
+
+.hide {
+    display: none;
+}

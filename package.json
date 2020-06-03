@@ -1,0 +1,22 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe game",
+  "main": "index.js",
+  "scripts": {
+    "sass": "npx node-sass -w scss/style.scss css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rosamichal/TicTacToe.git"
+  },
+  "author": "Michał Rosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rosamichal/TicTacToe/issues"
+  },
+  "homepage": "https://github.com/rosamichal/TicTacToe#readme",
+  "devDependencies": {
+    "node-sass": "^4.14.1"
+  }
+}
